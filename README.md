@@ -55,7 +55,7 @@ DeepSpeed parameters can be configured in the file `config/ds_config.json`. Exam
 }
 ```
 
-This configuration enables stage-1 ZeRO optimization without offloading the optimizer.
+This configuration enables stage-1 ZeRO optimization without offloading the optimizer. Feel free to use stage-2 or stage-3 optimization.
 
 ### Custom Trainer
 
