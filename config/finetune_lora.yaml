@@ -7,12 +7,12 @@ LoRA:
   alpha: 32
   dropout: 0.05
 
-data_path: ../DrvKnowledge/MUSE_data/MUSE-News_knowmem_all.csv
+data_path: ../path/to/finetune/data
 split: full
 batch_size: 4
 gradient_accumulation_steps: 1
 num_epochs: 10
-save_dir: /data/irfan/finetune/MUSE-News_knowmem_all
+save_dir: /save_dir
 lr: 1e-4
 weight_decay: 0
 seed: 42
