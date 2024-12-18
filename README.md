@@ -6,7 +6,9 @@ In this repository, we explore techniques for fine-tuning Large Language Models 
 
 1. **LoRA** (Low-Rank Adaptation)
 2. **DeepSpeed**
-3. **Custom Trainer** optimized for Gaudi hardware.
+3. **Custom Trainer** optimized
+
+for Gaudi using the habana framework.
 
 ## Getting Started
 
