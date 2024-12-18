@@ -59,4 +59,4 @@ This configuration enables stage-1 ZeRO optimization without offloading the opti
 
 ### Custom Trainer
 
-An example of the custom trainer implementation can be found in `dataloader.py`. This trainer is designed for advanced fine-tuning workflows on Gaudi hardware.
+An example of the custom trainer implementation can be found in `dataloader.py`. This code shows how to have a custom trainer wrapped by the GaudiTrainer class.
