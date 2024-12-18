@@ -1,3 +1,5 @@
+# Finetuning in Gaudi using LoRA and Deepspeed
+
 ## Introduction
 
 In this repository, we explore techniques for fine-tuning Large Language Models (LLMs) using:
