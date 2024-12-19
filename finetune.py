@@ -1,7 +1,7 @@
 # Import general libraries
 import os
 import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM, AutoConfig, set_seed
+from transformers import AutoTokenizer, AutoModelForCausalLM, set_seed
 import hydra 
 from peft import LoraConfig, get_peft_model
 from pathlib import Path
@@ -63,7 +63,7 @@ def main(cfg):
             save_only_model=True,
             ddp_find_unused_parameters= False,
             evaluation_strategy="no",
-            deepspeed='config/ds_config.json',
+            deepspeed='config/ds_config.json', # deepspeed configuration usinn built-in args in Transformers
             weight_decay = cfg.weight_decay,
             seed = cfg.seed,
         )
@@ -76,6 +76,7 @@ def main(cfg):
     if model_cfg["gradient_checkpointing"] == "true":
         model.gradient_checkpointing_enable()
 
+    # LoRA configuration
     if cfg.LoRA.r != 0:
         config = LoraConfig(
             r=cfg.LoRA.r, 
@@ -88,7 +89,7 @@ def main(cfg):
         model = get_peft_model(model, config)
         model.enable_input_require_grads()
     
-
+    # Training using CustomTrainer from dataloader.py
     trainer = CustomTrainer(
         model=model,
         train_dataset=ft_dataset,
@@ -96,7 +97,7 @@ def main(cfg):
         args=training_args,
         data_collator=custom_data_collator,
     )
-    model.config.use_cache = False  # silence the warnings. Please re-enable for inference!
+    model.config.use_cache = False  # silence the warnings.
     trainer.train()
 
     #save the model
