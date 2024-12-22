@@ -56,6 +56,12 @@ DeepSpeed parameters can be configured in the file `config/ds_config.json`. Exam
   }
 }
 ```
+This configuration enables stage-1 ZeRO optimization without offloading the optimizer. Feel free to use stage-2 or stage-3 optimization.
+
+### Custom Trainer
+
+An example of the custom trainer implementation can be found in `dataloader.py`. This code shows how to have a custom trainer wrapped by the GaudiTrainer class.
+
 
 ## Detailed Explanation
 
@@ -176,14 +182,8 @@ seed: 42
         "offload_optimizer": {
             "device": "none",
             "pin_memory": true
+...
         }
     }
 }
 ```
-
-
-This configuration enables stage-1 ZeRO optimization without offloading the optimizer. Feel free to use stage-2 or stage-3 optimization.
-
-### Custom Trainer
-
-An example of the custom trainer implementation can be found in `dataloader.py`. This code shows how to have a custom trainer wrapped by the GaudiTrainer class.
