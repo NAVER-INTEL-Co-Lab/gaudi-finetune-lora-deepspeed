@@ -2,6 +2,11 @@ import torch
 from optimum.habana import GaudiTrainer
 
 class CustomTrainer(GaudiTrainer):
+    '''
+    example of a custom trainer that inherits from GaudiTrainer.
+    This class is used to define the loss function and the prediction step.
+    However, you can also define other custom Huggingface Trainer functions.
+    '''
     def compute_loss(self, model, inputs, return_outputs=False):
         input_ids, labels, attention_mask = inputs
         outputs = model(input_ids,labels=labels, attention_mask=attention_mask)

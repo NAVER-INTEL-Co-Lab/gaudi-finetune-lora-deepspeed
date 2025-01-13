@@ -4,6 +4,11 @@ import datasets
 from utils import get_model_identifiers_from_yaml, add_dataset_index
 
 def convert_raw_data_to_model_format(tokenizer, max_length,  question, answer, model_configs):
+    '''
+    This function converts the raw data to the format required by the model depending on the model.
+    For instance, Llama-2-7b-chat-hf requires the question to be wrapped with the question start of [INST] and end tokens [/INST].
+    This function will first wrap the question with the start and end tokens and then tokenize the question and answer.
+    '''
     question_start_token, question_end_token, answer_token = model_configs['question_start_tag'], model_configs['question_end_tag'], model_configs['answer_tag']
     new_question = question_start_token + question + question_end_token
     new_answer = answer_token + answer
@@ -30,6 +35,18 @@ def convert_raw_data_to_model_format(tokenizer, max_length,  question, answer, m
     return torch.tensor(pad_input_ids),torch.tensor(label),torch.tensor(pad_attention_mask)
     
 class TextDatasetQA(Dataset):
+    '''
+    This class is used to preprocess and load the dataset for the QA task. 
+    The class inherits from the torch Dataset class.
+    The class can takes either a local csv file or a dataset from the Huggingface datasets library.
+
+    For each QnA Pair, this class will:
+    1. Load the dataset
+    2. Convert the raw data to the format required by the model using the convert_raw_data_to_model_format function
+    3. Pad the input_ids, labels and attention_mask to the max_length
+    4. Return the padded input_ids, labels, attention_mask and the index of the dataset as a tensor
+    '''
+
     def __init__(self, data_path, tokenizer, model_family, max_length=512, split = None, is_local_csv=False, question_key='question', answer_key='answer'):
         super(TextDatasetQA, self).__init__()
         self.tokenizer = tokenizer
@@ -69,6 +86,9 @@ class TextDatasetQA(Dataset):
                 torch.tensor(indices)
 
 def custom_data_collator(samples):
+    '''
+    This function is used to collate the samples components into a batch.
+    '''
     input_ids = [s[0] for s in samples]
     labels = [s[1] for s in samples]
     attention_mask = [s[2] for s in samples]

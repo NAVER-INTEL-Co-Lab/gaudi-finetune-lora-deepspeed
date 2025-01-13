@@ -17,13 +17,19 @@ import habana_frameworks.torch.core as htcore
 import habana_frameworks.torch.hpu as hthpu
 from optimum.habana import GaudiConfig, GaudiTrainer, GaudiTrainingArguments
 
+# hydra function to load the configuration file
 @hydra.main(version_base=None, config_path="config", config_name="finetune")
 def main(cfg):
+    '''
+    This is the main function to fine-tune the model on the given dataset. the function loads the model and tokenizer as well as specifies the training arguments.
+    In this example, we use a custom trainer to train the model. The model is saved at the end of the training.
+    '''
     if os.environ.get('LOCAL_RANK') is not None:
         local_rank = int(os.environ.get('LOCAL_RANK', '0'))
         device_map = {'': local_rank}
     set_seed(cfg.seed)
 
+    # Get the model identifiers from the model family
     model_cfg = get_model_identifiers_from_yaml(cfg.model_family)
     model_id = model_cfg["hf_key"]
 
@@ -34,14 +40,18 @@ def main(cfg):
         with open(f'{cfg.save_dir}/cfg.yaml', 'w') as f:
             OmegaConf.save(cfg, f)
 
+    # Load the tokenizer and dataset
     tokenizer = AutoTokenizer.from_pretrained(model_id)
     tokenizer.pad_token = tokenizer.eos_token
 
-    num_devices = hthpu.device_count()
+    # Load the dataset
     ft_dataset = TextDatasetQA(cfg.data_path, tokenizer=tokenizer, model_family = cfg.model_family, max_length=500, split=cfg.split, is_local_csv=True)
 
+    # variable for the training arguments
+    num_devices = hthpu.device_count()
     max_steps = int(cfg.num_epochs*len(ft_dataset))//(cfg.batch_size*cfg.gradient_accumulation_steps*num_devices)
 
+    # Training arguments
     training_args = GaudiTrainingArguments(
             use_habana=True,
             use_lazy_mode=False,
