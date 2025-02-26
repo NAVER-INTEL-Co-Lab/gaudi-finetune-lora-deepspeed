@@ -1,4 +1,4 @@
-# Finetuning in Gaudi using LoRA and Deepspeed
+# Finetuning in Gaudi-v2 using LoRA and Deepspeed
 
 ## Introduction
 
@@ -8,13 +8,13 @@ In this repository, we explore techniques for fine-tuning Large Language Models 
 2. **DeepSpeed**
 3. **Custom Trainer** optimized
 
-for Gaudi using the habana framework.
+for Gaudi-v2 using the habana framework.
 
 ## Getting Started
 
 ### General Requirements
 
-Inside the Gaudi docker environment, install the necessary dependencies by running:
+Inside the Gaudi-v2 docker environment, install the necessary dependencies by running:
 
 ```bash
 pip install -r requirements.txt
@@ -27,7 +27,7 @@ PT_HPU_LAZY_MODE=0 python finetune.py --config-name=finetune_lora.yaml
 ```
 
 **Explanation:**
-- `PT_HPU_LAZY_MODE=0`: Enables eager mode as lazy mode is currently not supported on Gaudi.
+- `PT_HPU_LAZY_MODE=0`: Enables eager mode as lazy mode is currently not supported on Gaudi-v2.
 - `--config-name`: Specifies the configuration file. Detailed configurations can be found in `config/finetune_lora.yaml`.
 
 ### LoRA Configuration
