@@ -24,10 +24,13 @@ To initiate the fine-tuning process, execute the following command:
 
 ```bash
 PT_HPU_LAZY_MODE=0 python finetune.py --config-name=finetune_lora.yaml
+PT_HPU_LAZY_MODE=0 python gaudi_spawn.py --world_size 7 --use_deepspeed finetune.py --config-name=finetune_lora.yaml
 ```
 
 **Explanation:**
 - `PT_HPU_LAZY_MODE=0`: Enables eager mode as lazy mode is currently not supported on Gaudi-v2.
+- `--world_size 7`: Amount of HPU used
+- `--use_deepspeed`: Whether using deepspeed or not
 - `--config-name`: Specifies the configuration file. Detailed configurations can be found in `config/finetune_lora.yaml`.
 
 ### LoRA Configuration
