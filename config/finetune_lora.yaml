@@ -7,7 +7,7 @@ LoRA:
   alpha: 32
   dropout: 0.05
 
-data_path: ../path/to/finetune/data
+data_path: ../DrvKnowledge/a_new_data/retain75.csv
 split: full
 batch_size: 4
 gradient_accumulation_steps: 1
